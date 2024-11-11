@@ -1,4 +1,4 @@
-package gfxgen
+package infogfx
 
 import (
 	"image"
@@ -18,17 +18,23 @@ func CardTemplate(templateImg image.Image, inputs ...interface{}) (image.Image, 
 
 	for _, input := range inputs {
 		switch v := input.(type) {
-		case image.Image:
-			log.Printf("image loaded")
-		case string:
-			log.Printf("text field loaded %s", input)
+		case ImageInput:
+			scaledImg := ScaleImage(v.Image, v.Width, v.Height)
+			position := image.Rect(v.XPadding, v.YPadding, v.XPadding+v.Width, v.YPadding+v.Height)
+			draw.Draw(outputImg, position, scaledImg, image.Point{}, draw.Over)
+			log.Printf("image loaded and drawn at (%d, %d)", v.XPadding, v.YPadding)
+		case TextInput:
+			if v.Color == nil {
+				v.Color = color.Black
+			}
+			AddTextLabel(outputImg, v.TextFace, v.X, v.Y, v.Text)
+			log.Printf("text field loaded: %s", v.Text)
 		default:
-			log.Printf("different type: %v", v)
+			log.Printf("unknown type: %v", v)
 		}
-		log.Printf("potato")
 	}
 
-	return nil, nil
+	return outputImg, nil
 }
 
 func AddTextLabel(img *image.RGBA, textFace font.Face, x, y int, label string) {

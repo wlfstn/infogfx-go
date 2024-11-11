@@ -1,4 +1,4 @@
-package infogfxgo
+package infogfx
 
 import (
 	"errors"
@@ -8,6 +8,14 @@ import (
 	"os"
 	"path/filepath"
 )
+
+type ImageInput struct {
+	Image    image.Image
+	Width    int
+	Height   int
+	XPadding int
+	YPadding int
+}
 
 var (
 	ErrImageLoadFailed        = errors.New("Failed to load image file")
@@ -39,4 +47,20 @@ func ResourceLoadImage(location string) (image.Image, error) {
 	}
 
 	return imgDecode, err
+}
+
+func ScaleImage(img image.Image, newWidth, newHeight int) *image.RGBA {
+	bounds := img.Bounds()
+	srcWidth := bounds.Dx()
+	srcHeight := bounds.Dy()
+
+	scaledImg := image.NewRGBA(image.Rect(0, 0, newWidth, newHeight))
+	for y := 0; y < newHeight; y++ {
+		for x := 0; x < newWidth; x++ {
+			srcX := x * srcWidth / newWidth
+			srcY := y * srcHeight / newHeight
+			scaledImg.Set(x, y, img.At(srcX, srcY))
+		}
+	}
+	return scaledImg
 }

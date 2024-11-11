@@ -1,12 +1,21 @@
-package infogfxgo
+package infogfx
 
 import (
 	"errors"
+	"image/color"
 	"os"
 
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
 )
+
+type TextInput struct {
+	Text     string
+	X        int
+	Y        int
+	TextFace font.Face
+	Color    color.Color
+}
 
 var (
 	ErrFontLoadFailed  = errors.New("Failed to load Font")
