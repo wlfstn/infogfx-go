@@ -10,17 +10,17 @@ import (
 )
 
 func TestCardTemplate(t *testing.T) {
-	templateImg, err := wlfgfx.ResourceLoadImage("../testdata/canoe.png")
+	templateImg, err := wlfgfx.ResourceLoadImage("./testdata/canoe.png")
 	if err != nil {
 		t.Fatalf("Failed to load image: %v", err)
 	}
 
-	sampleImg, err := wlfgfx.ResourceLoadImage("../testdata/Sawyer.jpg")
+	sampleImg, err := wlfgfx.ResourceLoadImage("./testdata/Sawyer.jpg")
 	if err != nil {
 		t.Fatalf("Failed to load image: %v", err)
 	}
 
-	sampleFont, err := wlfgfx.ResourceLoadFont("../testdata/Roboto/Roboto-Bold.ttf", 24.0)
+	sampleFont, err := wlfgfx.ResourceLoadFont("./testdata/Roboto/Roboto-Bold.ttf", 24.0)
 	if err != nil {
 		t.Fatalf("Failed to load font: %v", err)
 	}
@@ -36,21 +36,21 @@ func TestCardTemplate(t *testing.T) {
 	textI_01 := wlfgfx.TextInput{
 		Text:     "1337",
 		X:        8,
-		Y:        290,
+		Y:        292,
 		TextFace: sampleFont,
 		Color:    color.Black,
 	}
 	textI_02 := wlfgfx.TextInput{
 		Text:     "2024-11-10",
 		X:        8,
-		Y:        338,
+		Y:        340,
 		TextFace: sampleFont,
 		Color:    color.Black,
 	}
 	textI_03 := wlfgfx.TextInput{
 		Text:     "Sawyer Greythorne",
 		X:        8,
-		Y:        386,
+		Y:        388,
 		TextFace: sampleFont,
 		Color:    color.Black,
 	}
