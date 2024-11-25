@@ -15,7 +15,7 @@ func TestCardTemplate(t *testing.T) {
 		t.Fatalf("Failed to load image: %v", err)
 	}
 
-	sampleImg, err := wlfgfx.ResourceLoadImage("./testdata/Sawyer.jpg")
+	sampleImg, err := wlfgfx.ResourceUrlLoadImage("https://iwait.club/assets/SawyerDotWolf-B6PX3jg3.jpg")
 	if err != nil {
 		t.Fatalf("Failed to load image: %v", err)
 	}
