@@ -19,7 +19,7 @@ func CardTemplate(templateImg image.Image, inputs ...interface{}) (image.Image, 
 	for _, input := range inputs {
 		switch v := input.(type) {
 		case ImageInput:
-			scaledImg := ScaleImage(v.Image, v.Width, v.Height)
+			scaledImg := ScaleImageBilinear(v.Image, v.Width, v.Height)
 			position := image.Rect(v.XPadding, v.YPadding, v.XPadding+v.Width, v.YPadding+v.Height)
 			draw.Draw(outputImg, position, scaledImg, image.Point{}, draw.Over)
 			log.Printf("image loaded and drawn at (%d, %d)", v.XPadding, v.YPadding)
