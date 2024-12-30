@@ -1,28 +1,33 @@
-package example_test
+package main
 
 import (
+	"flag"
 	"image/color"
 	"image/png"
+	"log"
 	"os"
-	"testing"
 
 	"github.com/wlfstn/infogfx-go/igfx"
 )
 
-func TestCardTemplate(t *testing.T) {
-	templateImg, err := igfx.ResourceLoadImage("./testdata/canoe.png")
+func main() {
+	baseImg := flag.String("baseimg", "./res/canoe.png", "Base image used in the background")
+	baseFont := flag.String("basefont", "./res/Roboto/Roboto-Bold.ttf", "Font used to be drawn over the image")
+	flag.Parse()
+
+	templateImg, err := igfx.ResourceLoadImage(*baseImg)
 	if err != nil {
-		t.Fatalf("Failed to load image: %v", err)
+		log.Fatalf("Failed to load base image: %s :: %v", *baseImg, err)
 	}
 
 	sampleImg, err := igfx.ResourceUrlLoadImage("https://iwait.club/assets/SawyerDotWolf-B6PX3jg3.jpg")
 	if err != nil {
-		t.Fatalf("Failed to load image: %v", err)
+		log.Fatalf("Failed to load online image: %v", err)
 	}
 
-	sampleFont, err := igfx.ResourceLoadFont("./testdata/Roboto/Roboto-Bold.ttf", 24.0)
+	sampleFont, err := igfx.ResourceLoadFont(*baseFont, 24.0)
 	if err != nil {
-		t.Fatalf("Failed to load font: %v", err)
+		log.Fatalf("Failed to load font: %v", err)
 	}
 
 	imgInput := igfx.ImageInput{
@@ -57,22 +62,22 @@ func TestCardTemplate(t *testing.T) {
 
 	outputImg, err := igfx.CardTemplate(templateImg, imgInput, textI_01, textI_02, textI_03)
 	if err != nil {
-		t.Fatalf("CardTemplate failed: %v", err)
+		log.Fatalf("CardTemplate failed: %v", err)
 	}
 
 	file, err := os.Create("test_output.png")
 	if err != nil {
-		t.Fatalf("Failed to create output file: %v", err)
+		log.Fatalf("Failed to create output file: %v", err)
 	}
 	defer file.Close()
 
 	err = png.Encode(file, outputImg)
 	if err != nil {
-		t.Fatalf("Failed to encode output image: %v", err)
+		log.Fatalf("Failed to encode output image: %v", err)
 	}
 
 	if outputImg.Bounds().Empty() {
-		t.Fatalf("Output image has empty bounds")
+		log.Fatalf("Output image has empty bounds")
 	}
-	t.Log("Test completed successfully, output image saved as 'test_output.png'")
+	log.Println("Test completed successfully, output image saved as 'test_output.png'")
 }
