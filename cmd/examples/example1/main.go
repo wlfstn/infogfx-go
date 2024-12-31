@@ -13,6 +13,7 @@ import (
 func main() {
 	baseImg := flag.String("baseimg", "./res/canoe.png", "Base image used in the background")
 	baseFont := flag.String("basefont", "./res/Roboto/Roboto-Bold.ttf", "Font used to be drawn over the image")
+	outputResult := flag.String("output", "./test_output.png", "Where you want the image output")
 	flag.Parse()
 
 	templateImg, err := igfx.ResourceLoadImage(*baseImg)
@@ -65,7 +66,7 @@ func main() {
 		log.Fatalf("CardTemplate failed: %v", err)
 	}
 
-	file, err := os.Create("test_output.png")
+	file, err := os.Create(*outputResult)
 	if err != nil {
 		log.Fatalf("Failed to create output file: %v", err)
 	}
