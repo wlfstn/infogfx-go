@@ -16,17 +16,17 @@ func main() {
 	outputResult := flag.String("output", "./test_output.png", "Where you want the image output")
 	flag.Parse()
 
-	templateImg, err := igfx.ResourceLoadImage(*baseImg)
+	templateImg, err := igfx.LoadImgLocal(*baseImg)
 	if err != nil {
 		log.Fatalf("Failed to load base image: %s :: %v", *baseImg, err)
 	}
 
-	sampleImg, err := igfx.ResourceUrlLoadImage("https://iwait.club/assets/SawyerDotWolf-B6PX3jg3.jpg")
+	sampleImg, err := igfx.LoadImgURL("https://iwait.club/assets/SawyerDotWolf-B6PX3jg3.jpg")
 	if err != nil {
 		log.Fatalf("Failed to load online image: %v", err)
 	}
 
-	sampleFont, err := igfx.ResourceLoadFont(*baseFont, 24.0)
+	sampleFont, err := igfx.LoadFontLocal(*baseFont, 24.0)
 	if err != nil {
 		log.Fatalf("Failed to load font: %v", err)
 	}
@@ -61,10 +61,8 @@ func main() {
 		Color:    color.Black,
 	}
 
-	outputImg, err := igfx.CardTemplate(templateImg, imgInput, textI_01, textI_02, textI_03)
-	if err != nil {
-		log.Fatalf("CardTemplate failed: %v", err)
-	}
+	canoeLicense := igfx.InitializeFromImage(templateImg)
+	canoeLicense.CreateCardByTemplate(imgInput, textI_01, textI_02, textI_03)
 
 	file, err := os.Create(*outputResult)
 	if err != nil {
@@ -72,13 +70,10 @@ func main() {
 	}
 	defer file.Close()
 
-	err = png.Encode(file, outputImg)
+	err = png.Encode(file, canoeLicense.Image)
 	if err != nil {
 		log.Fatalf("Failed to encode output image: %v", err)
 	}
 
-	if outputImg.Bounds().Empty() {
-		log.Fatalf("Output image has empty bounds")
-	}
-	log.Println("Test completed successfully, output image saved as 'test_output.png'")
+	log.Printf("Test completed successfully, output image saved as '%s'", *outputResult)
 }
