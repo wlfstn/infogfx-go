@@ -21,7 +21,7 @@ func (gfx *GfxDesign) CreateCardByTemplate(inputs ...interface{}) (image.Image, 
 			if v.Color == nil {
 				v.Color = color.Black
 			}
-			gfx.DrawText(v.TextFace, v.X, v.Y, v.Text)
+			gfx.DrawText(v.TextFace, v.Color, v.X, v.Y, v.Text)
 		default:
 			log.Printf("unknown type:")
 		}

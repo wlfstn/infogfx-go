@@ -114,14 +114,13 @@ func (gfx *GfxDesign) DrawImage(img image.Image, scaleMethod uint8, w, h, x, y i
 	draw.Draw(outputResult, position, scaledImg, image.Point{}, draw.Over)
 }
 
-func (gfx *GfxDesign) DrawText(fontFace font.Face, x, y int, text string) error {
+func (gfx *GfxDesign) DrawText(fontFace font.Face, fontColor color.Color, x, y int, text string) error {
 
-	col := color.Black
 	point := fixed.Point26_6{X: fixed.I(x), Y: fixed.I(y)}
 
 	d := &font.Drawer{
 		Dst:  gfx.Image.(*image.RGBA),
-		Src:  image.NewUniform(col),
+		Src:  image.NewUniform(fontColor),
 		Face: fontFace,
 		Dot:  point,
 	}

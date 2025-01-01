@@ -1,0 +1,1 @@
+This is the Canadian Broadcasting Corporation font which can be found on github here: https://github.com/googlefonts/radiocanadadisplay
